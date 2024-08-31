@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost Income from Your Schedule Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .calculator {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+        }
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        #result {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #d4edda;
+            border-left: 5px solid #28a745;
+            border-radius: 5px;
+            font-size: 18px;
+            display: none;
+        }
+        .cta {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f8d7da;
+            border-left: 5px solid #dc3545;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Lost Income from Your Schedule Calculator</h1>
+
+    <div class="calculator">
+        <label for="grossBillings">Gross Billings for the Week ($):</label>
+        <input type="number" id="grossBillings" placeholder="Enter gross billings" min="0">
+
+        <label for="totalAvailableHours">Total Available Hours:</label>
+        <input type="number" id="totalAvailableHours" placeholder="Enter total available hours" min="0">
+
+        <label for="totalFilledHours">Total Filled Hours:</label>
+        <input type="number" id="totalFilledHours" placeholder="Enter total filled hours" min="0">
+
+        <button onclick="calculateLostIncome()">Calculate</button>
+
+        <div id="result">
+            <p id="averageBilling"></p>
+            <p id="lostIncomeHours"></p>
+            <p id="lostIncomePercentage"></p>
+            <p id="lostIncomeAmount"></p>
+            <p id="reportText"></p>
+        </div>
+    </div>
+
+    <div class="cta">
+        <p>👋 Enhance Your Practice👋</p>
+        <p>👋 Enrich Your Life👋</p>
+    </div>
+
+    <script>
+    function calculateLostIncome() {
+        var grossBillings = parseFloat(document.getElementById('grossBillings').value);
+        var totalAvailableHours = parseFloat(document.getElementById('totalAvailableHours').value);
+        var totalFilledHours = parseFloat(document.getElementById('totalFilledHours').value);
+
+        if (grossBillings > 0 && totalAvailableHours > 0 && totalFilledHours >= 0 && totalFilledHours <= totalAvailableHours) {
+            var averageBillingPerHour = grossBillings / totalFilledHours;
+            var missedHours = totalAvailableHours - totalFilledHours;
+            var missedBillingsPercentage = (missedHours / totalAvailableHours) * 100;
+            var totalMissedIncome = missedHours * averageBillingPerHour;
+
+            document.getElementById('averageBilling').innerText = "Average Billings Per Hour: $" + averageBillingPerHour.toFixed(2);
+            document.getElementById('lostIncomeHours').innerText = "Hours of Lost Income: " + missedHours.toFixed(2) + " hours";
+            document.getElementById('lostIncomePercentage').innerText = "Percentage of Lost Income: " + missedBillingsPercentage.toFixed(2) + "%";
+            document.getElementById('lostIncomeAmount').innerText = "Actual Amount of Lost Income: $" + totalMissedIncome.toFixed(2);
+
+            var reportText = "Based on your current schedule:\n";
+            reportText += "You missed " + missedHours.toFixed(2) + " hours of potential billings, which accounts for " + missedBillingsPercentage.toFixed(2) + "% of your available schedule.\n";
+            reportText += "With an average billing rate of $" + averageBillingPerHour.toFixed(2) + " per hour, this has resulted in a total of $" + totalMissedIncome.toFixed(2) + " in missed billings for the week.\n";
+
+            if (missedBillingsPercentage > 10) {
+                reportText += "This is a significant amount of lost income. Consider strategies to improve patient retention, reduce no-shows, or optimize your scheduling process.";
+            } else {
+                reportText += "Your scheduling efficiency is relatively strong, but there may still be room for improvement in reducing missed billings.";
+            }
+
+            document.getElementById('reportText').innerText = reportText;
+            document.getElementById('result').style.display = 'block';
+
+            // Call to action
+            var ctaText = "Looking to optimize your practice further? ";
+            ctaText += "Contact us today for a personalized consultation. ";
+            ctaText += "We can help you enhance your practice, boost profitability, and enrich your professional life.";
+            document.querySelector('.cta').innerHTML = `<p>👋 Enhance Your Practice👋</p><p>${ctaText}</p><p>👋 Enrich Your Life👋</p>`;
+        } else {
+            alert("Please enter valid numbers for gross billings, total available hours, and total filled hours.");
+        }
+    }
+    </script>
+
+</body>
+</html>
